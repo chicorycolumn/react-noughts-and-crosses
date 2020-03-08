@@ -1,38 +1,77 @@
 .App {
   text-align: center;
+  background-color: cyan;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.backing {
+  background-color: lightgoldenrodyellow;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.bodySurrogate {
+  display: grid;
+  grid-template: 10% 1fr 10% / 10% 1fr 10%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.centralElements {
+  display: grid;
+  grid-column: 2 / 3;
 }
 
-.App-link {
-  color: #61dafb;
+.overWrapper {
+  display: grid;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.wrapper {
+  display: grid;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  /* position: relative;
+  left: 170px; */
+  /* text-align: center; */
+  /* display: grid; */
+  grid-template-columns: 100px 100px 100px;
+  grid-gap: 1px;
+  color: #444;
+}
+
+.p1Details {
+  display: grid;
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  color: blue;
+  /* float: left;
+  width: 25%; */
+  text-align: left;
+  /* display: grid; */
+  /* position: relative;
+  top: 0px;
+  left: 10px; */
+}
+
+.p2Details {
+  display: grid;
+  grid-column: 3 / 3;
+  grid-row: 1 / 3;
+  color: hotpink;
+  /* float: right; */
+  text-align: right;
+  /* position: relative;
+  top: 0px;
+  right: 10px; */
+}
+
+.squares {
+  /* display: inline-block; */
+  background-color: #444;
+  border: 5px solid;
+  border-color: #444;
+  height: 60px;
+  color: red;
+  border-radius: 2px;
+  padding: 17px;
+  font-size: 400%;
+  font-family: arial;
+  line-height: 65px;
 }
