@@ -95,9 +95,9 @@ class PlayerNames extends React.Component {
     return Object.keys(this.state.playerNamesDisplay).map(player => {
       return (
         <div id={`${player}`} className={`${player}Details`}>
-          <h2>
+          <h2 className="playerNameText">
             {this.state.playerNamesDisplay[player]}{" "}
-            {this.props.whoseTurn === player ? "⬅️" : ""}
+            {this.props.whoseTurn === player ? "☝" : ""}
           </h2>
           <form onSubmit={this.handlePlayerSubmit.bind(this, player)}>
             <input
@@ -130,6 +130,7 @@ class Board extends React.Component {
   };
   render() {
     return (
+      // <div className="over-grid">
       <div className="wrapper">
         {this.state.board.map((row, indexRow) =>
           row.map((square, indexSquare) => {
@@ -143,6 +144,7 @@ class Board extends React.Component {
           })
         )}
       </div>
+      // </div>
     );
   }
 }
@@ -157,13 +159,32 @@ class App extends React.Component {
       <div className="App">
         <header className="Ticcy Taccy Toe"></header>
         <h1>Noughts and Crosses</h1>
-        <div className="bodySurrogate">
-          <PlayerNames whoseTurn={this.state.whoseTurn} />
-          {/* <div className="overWrapper"> */}
+        <div className="over-grid">
           <Board />
-          {/* </div> */}
-          <button className="centralElements">Start Game</button>
+          <PlayerNames whoseTurn={this.state.whoseTurn} />
         </div>
+        {/* </div> */}
+        {/* <div className="container">
+          <div className="cell cell-1">1.</div>
+          <div className="cell cell-2">
+
+          </div>
+          <div className="cell cell-3">3.</div>
+          <div className="cell cell-4">4.</div>
+          <div className="cell cell-5">5.</div>
+          <div className="cell cell-6">6.</div>
+          <div className="cell cell-7">7.</div>
+          <div className="cell cell-8">8.</div>
+          <div className="cell cell-9">9.</div>
+        </div> */}
+
+        {/* <div className="bodySurrogate">
+         
+          <div className="overWrapper">
+            
+          </div>
+          <button className="centralElements">Start Game</button>
+        </div> */}
       </div>
     );
   }
