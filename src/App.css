@@ -11,12 +11,28 @@
   display: grid;
   grid-template-columns: 30% 40% 30%;
   grid-template-rows: 1fr 1fr 1fr;
+  min-height: 0;
+  min-width: 0;
 }
 
 .playerNameText {
-  font-size: 5vw;
-  max-width: 50%;
+  display: inline-flex;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  /* word-wrap: break-word; */
+  /* display: block; */
+  line-height: 1em;
+  max-height: 4em;
+  font-size: 4vw;
+  position: center;
+  text-align: center;
+
+  /*max-width: 50%;
   max-height: 50%;
+  text-align: center;
+  overflow: visible;
+  min-width: 0;
+  position: absolute; */
   /* resize: none; */
 }
 
@@ -25,9 +41,11 @@
   color: black;
   display: grid;
   grid-column: 1;
-  grid-row: 1 / 3;
-  height: 50%;
-  width: 100%;
+  grid-row: 1 / 4;
+  min-height: 0;
+  min-width: 0;
+  /* height: 50%;
+  width: 100%; */
   /* max-width: 50%;
   max-height: 50%;
   resize: none;
@@ -39,7 +57,9 @@
   color: black;
   display: grid;
   grid-column: 3;
-  grid-row: 1 / 3;
+  grid-row: 1 / 4;
+  min-height: 0;
+  min-width: 0;
 }
 
 .wrapper {
@@ -57,4 +77,15 @@
   color: black;
   background-color: #444;
   display: grid;
+}
+
+.yellowBackground {
+  background-color: yellow;
+}
+
+.squareSymbolWrapper {
+  font-size: 13vw;
+  /* max-height: 0.5em; */
+  margin-top: -13%;
+  margin-bottom: -140%;
 }

@@ -49,7 +49,7 @@ class PlayerNames extends React.Component {
 
   selectRandomName = (player, event) => {
     event.preventDefault();
-
+    console.dir(Board);
     const nameFlipper = player => {
       this.setState(currentState => {
         const newObj = { ...currentState.playerNamesDisplay };
@@ -79,6 +79,16 @@ class PlayerNames extends React.Component {
                       nameFlipper(player);
                       setTimeout(() => {
                         nameFlipper(player);
+                        while (
+                          this.state.playerNamesDisplay[player] ===
+                          this.state.playerNamesDisplay[
+                            player === "p1" ? "p2" : "p1"
+                          ]
+                        ) {
+                          console.log("whoops");
+                          nameFlipper(player);
+                        }
+                        console.log();
                       }, 100);
                     }, 100);
                   }, 100);
@@ -94,10 +104,13 @@ class PlayerNames extends React.Component {
   render() {
     return Object.keys(this.state.playerNamesDisplay).map(player => {
       return (
+        // <div className="playerNameTextWrapper">
         <div id={`${player}`} className={`${player}Details`}>
           <h2 className="playerNameText">
-            {this.state.playerNamesDisplay[player]}{" "}
-            {this.props.whoseTurn === player ? "☝" : ""}
+            {this.props.isItPlayerOneTurn && player === "p1" ? "☝" : ""}
+            {!this.props.isItPlayerOneTurn && player === "p2" ? "☝" : ""}
+            <br />
+            {this.state.playerNamesDisplay[player]}
           </h2>
           <form onSubmit={this.handlePlayerSubmit.bind(this, player)}>
             <input
@@ -115,30 +128,92 @@ class PlayerNames extends React.Component {
             </button>
           </form>
         </div>
+        // </div>
       );
     });
   }
 }
 
 class Board extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   // create a ref to store the textInput DOM element
+  //   this.clickedSquare = React.createRef();
+  //   this.makeBorderFlash = this.makeBorderFlash.bind(this);
+  // }
+
   state = {
     board: [
-      ["", "", ""],
+      ["", "", "O"],
       ["", "", ""],
       ["", "", ""]
-    ]
+    ],
+    background: ""
   };
+
+  makeBorderFlash = (row, column) => {
+    const currentSquare = document.getElementById(`box ${row}-${column}`);
+
+    setTimeout(() => {
+      currentSquare.setAttribute("style", "background-color: yellow;");
+      setTimeout(() => {
+        currentSquare.removeAttribute("style", "background-color: yellow;");
+        setTimeout(() => {
+          currentSquare.setAttribute("style", "background-color: yellow;");
+          setTimeout(() => {
+            currentSquare.removeAttribute("style", "background-color: yellow;");
+            setTimeout(() => {
+              currentSquare.setAttribute("style", "background-color: yellow;");
+              setTimeout(() => {
+                currentSquare.removeAttribute(
+                  "style",
+                  "background-color: yellow;"
+                );
+              }, 50);
+            }, 50);
+          }, 50);
+        }, 50);
+      }, 50);
+    }, 50);
+  };
+
+  handleClick = (event, row, column) => {
+    if (this.state.board[row][column] === "") {
+      this.setState(currentState => {
+        const newBoard = [];
+        currentState.board.forEach(arr => newBoard.push([...arr]));
+        console.log(newBoard);
+        newBoard[row][column] = this.props.isItPlayerOneTurn ? "X" : "O";
+        this.props.turnHandler();
+        return {
+          board: newBoard
+        };
+      });
+    } else {
+      this.makeBorderFlash(row, column);
+    }
+  };
+
   render() {
     return (
       // <div className="over-grid">
       <div className="wrapper">
         {this.state.board.map((row, indexRow) =>
-          row.map((square, indexSquare) => {
+          row.map((column, indexColumn) => {
             return (
               <div
-                id={`box ${indexRow}-${indexSquare}`}
-                className="squares"
-              ></div>
+                id={`box ${indexRow}-${indexColumn}`}
+                // ref={this.clickedSquare}
+                onClick={() => {
+                  this.handleClick(this, indexRow, indexColumn);
+                }}
+                className={`squares`}
+                //className={`squares ${this.state.background}`}
+              >
+                <div className="squareSymbolWrapper">
+                  {this.state.board[indexRow][indexColumn]}
+                </div>
+              </div>
             );
             //return <div id="box a" class="squares"></div>;
           })
@@ -151,7 +226,13 @@ class Board extends React.Component {
 
 class App extends React.Component {
   state = {
-    whoseTurn: "p1"
+    isItPlayerOneTurn: true
+  };
+
+  turnHandler = () => {
+    this.setState({
+      isItPlayerOneTurn: !this.state.isItPlayerOneTurn
+    });
   };
 
   render() {
@@ -160,8 +241,11 @@ class App extends React.Component {
         <header className="Ticcy Taccy Toe"></header>
         <h1>Noughts and Crosses</h1>
         <div className="over-grid">
-          <Board />
-          <PlayerNames whoseTurn={this.state.whoseTurn} />
+          <Board
+            isItPlayerOneTurn={this.state.isItPlayerOneTurn}
+            turnHandler={this.turnHandler}
+          />
+          <PlayerNames isItPlayerOneTurn={this.state.isItPlayerOneTurn} />
         </div>
         {/* </div> */}
         {/* <div className="container">
