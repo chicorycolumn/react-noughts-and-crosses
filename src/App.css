@@ -10,22 +10,103 @@
 .over-grid {
   display: grid;
   grid-template-columns: 30% 40% 30%;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   min-height: 0;
   min-width: 0;
+}
+
+.middleBottom {
+  display: grid;
+  grid-column: 2/3;
+  grid-row: 4/4;
+}
+
+.startTourneyButton {
+  font-size: 3vw;
+  margin-top: 1%;
+  height: 70%;
+  width: 50%;
+}
+
+.fingerWrapper {
+  height: 1vh;
+  overflow: hidden;
+}
+
+i {
+  animation-name: spin;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform: rotate(3deg);
+  transform: rotate(0.3rad);
+  transform: rotate(3grad);
+  transform: rotate(0.03turn);
+}
+
+h5 {
+  animation-duration: 1s;
+  animation-name: slidein;
+}
+
+.normalAnimation {
+  animation-direction: normal;
+}
+
+.reverseAnimation {
+  animation-direction: reverse;
+  position: absolute;
+  left: 0.00000001%;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 200%;
+  }
+
+  to {
+    margin-left: -50%;
+    width: 100%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.theFinger {
+  /* float: right; */
+  text-align: right;
+  position: absolute;
+  line-height: 1.4em;
+  max-height: 4em;
+  font-size: 6vw;
+  padding-left: 12.5%;
+  margin-top: -0.5%;
 }
 
 .playerNameText {
   display: inline-flex;
   overflow: hidden;
-  /* text-overflow: ellipsis; */
-  /* word-wrap: break-word; */
-  /* display: block; */
-  line-height: 1em;
-  max-height: 4em;
-  font-size: 4vw;
-  position: center;
-  text-align: center;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: block;
+  line-height: 1.2em;
+  max-height: 6em;
+  font-size: 5vw;
+  /* position: center; */
+  /* text-align: center; */
+  margin-top: -10%;
 
   /*max-width: 50%;
   max-height: 50%;
