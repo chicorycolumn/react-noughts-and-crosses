@@ -303,7 +303,6 @@ class Board extends React.Component {
             board: newBoard
           };
         });
-        console.log(this.checkForWinningTriplet());
       } else {
         this.makeBorderFlash(row, column);
       }
@@ -312,65 +311,70 @@ class Board extends React.Component {
 
   checkForWinningTriplet = () => {
     const { board } = this.state;
+    console.log("start of check");
+    console.log(board);
 
-    console.log(board[0][0], board[1][1], board[2][2]);
+    console.log("doing the for loop...");
+    for (let iterant = 0; iterant < board.length; iterant++) {
+      let col = iterant;
 
-    if (board[1][1]) {
-      if (
-        (board[0][0] === board[1][1] && board[1][1] === board[2][2]) ||
-        (board[0][2] === board[1][1] && board[1][1] === board[2][0])
-      ) {
-        return `Wow! ${board[1][1]} wins with a sick diagonal! It was either ${board[0][0]}${board[1][1]}${board[2][2]} from right to left, or it was ${board[2][0]}${board[1][1]}${board[2][0]} from left to right`;
+      if (board[col][0]) {
+        console.log(board[col][0], board[col][1], board[col][2]);
+        if (
+          board[col][0] === board[col][1] &&
+          board[col][1] === board[col][2]
+        ) {
+          return `Wow! ${board[col][0]} wins with a dank horizontal! It was ${board[col][0]}${board[col][1]}${board[col][2]}`;
+        }
       }
-    } else {
-      for (let iterant = 0; iterant < board.length; iterant++) {
-        let col = iterant;
-
-        if (board[col][0]) {
-          if (
-            board[col][0] === board[col][1] &&
-            board[col][1] === board[col][2]
-          ) {
-            return `Wow! ${board[col][0]} wins with a boss vertical! It was ${board[col][0]}${board[col][1]}${board[col][2]}`;
-          } else {
-            let row = iterant;
-            if (board[0][row]) {
-              if (
-                board[0][row] === board[1][row] &&
-                board[1][row] === board[2][row]
-              ) {
-                return `Wow! ${board[0][row]} wins with a dank horizontal! It was ${board[0][row]}${board[1][row]}${board[2][row]}`;
-              }
-            }
-          }
+      console.log("gonna check vertical");
+      let row = iterant;
+      if (board[0][row]) {
+        if (
+          board[0][row] === board[1][row] &&
+          board[1][row] === board[2][row]
+        ) {
+          return `Wow! ${board[0][row]} wins with a boss vertical! It was ${board[0][row]}${board[1][row]}${board[2][row]}`;
         }
       }
     }
 
-    return "Keep playing, comrades!";
+    if (board[1][1]) {
+      console.log("middle square is true");
+      if (
+        (board[0][0] === board[1][1] && board[1][1] === board[2][2]) ||
+        (board[0][2] === board[1][1] && board[1][1] === board[2][0])
+      ) {
+        return `Wow! ${board[1][1]} wins with a sick diagonal!  It was either ${board[0][0]}${board[1][1]}${board[2][2]} from right to left, or it was ${board[2][0]}${board[1][1]}${board[2][0]} from left to right`;
+      }
+      console.log("but no diagonal");
+    } else return "Keep playing, comrades!";
   };
 
   render() {
     return (
-      <div className="wrapper">
-        {this.state.board.map((row, indexRow) =>
-          row.map((column, indexColumn) => {
-            return (
-              <div
-                id={`${indexRow}, ${indexColumn}`}
-                onClick={() => {
-                  this.handleClick(this, indexRow, indexColumn);
-                }}
-                className={`squares`}
-              >
-                <div className="squareSymbolWrapper">
-                  {this.state.board[indexRow][indexColumn]}
+      <>
+        <div className="wrapper">
+          {this.state.board.map((row, indexRow) =>
+            row.map((column, indexColumn) => {
+              return (
+                <div
+                  id={`${indexRow}, ${indexColumn}`}
+                  onClick={() => {
+                    this.handleClick(this, indexRow, indexColumn);
+                  }}
+                  className={`squares`}
+                >
+                  <div className="squareSymbolWrapper">
+                    {this.state.board[indexRow][indexColumn]}
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
+        <p className="playerFeedback">{this.checkForWinningTriplet()}</p>
+      </>
     );
   }
 }
@@ -416,7 +420,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="Ticcy Taccy Toe"></header>
-        <h1>Noughts and Crosses</h1>
+        <h1 className="title">Noughts and Crosses</h1>
         <div className="over-grid">
           <Board
             isItPlayerOneTurn={this.state.isItPlayerOneTurn}

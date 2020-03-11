@@ -1,6 +1,12 @@
 .App {
   text-align: center;
+  margin-top: -4%;
   background-color: cyan;
+}
+
+.title {
+  font-size: 6vw;
+  margin-bottom: 0.5%;
 }
 
 .over-grid {
@@ -10,6 +16,7 @@
   grid-template-rows: 1fr 1fr 1fr 1fr;
   min-height: 0;
   min-width: 0;
+
   max-height: 100%;
 }
 
@@ -75,6 +82,16 @@
   display: grid;
   grid-column: 2/3;
   grid-row: 4/4;
+}
+
+.playerFeedback {
+  display: grid;
+  grid-column: 2/3;
+  grid-row: 4/4;
+  font-size: 3vw;
+  margin-top: -3%;
+  height: 70%;
+  width: 100%;
 }
 
 .startTourneyButton {
