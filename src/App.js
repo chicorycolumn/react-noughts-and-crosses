@@ -15,6 +15,13 @@ const randomNames = [
   "Oil Tycoon",
   "Green Ghoul",
   "A tempting plate of Scooby Snacks",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing",
   "An excessively tall sandwich",
   "Velma's lost glasses"
 ];
@@ -22,16 +29,20 @@ const randomNames = [
 class PlayerNames extends React.Component {
   state = {
     playerNamesDisplay: { p1: "Player One", p2: "Player Two" },
-    playerNamesInternal: { p1: "", p2: "" }
+    playerNamesInput: { p1: "", p2: "" },
+    playerScores: { p1: 0, p2: 0.5 }
   };
 
   handlePlayerSubmit = (player, event) => {
     event.preventDefault();
     this.setState(currentState => {
-      if (currentState.playerNamesInternal[player] !== "") {
+      if (currentState.playerNamesInput[player] !== "") {
         const newObj = { ...currentState.playerNamesDisplay };
-        newObj[player] = currentState.playerNamesInternal[player];
-        return { playerNamesDisplay: newObj };
+        newObj[player] = currentState.playerNamesInput[player];
+        return {
+          playerNamesDisplay: newObj,
+          playerNamesInput: { p1: "", p2: "" }
+        };
       }
     });
   };
@@ -40,10 +51,10 @@ class PlayerNames extends React.Component {
     const { value } = event.target;
 
     this.setState(currentState => {
-      const newObj = { ...currentState.playerNamesInternal };
+      const newObj = { ...currentState.playerNamesInput };
       newObj[player] = value; // Interestingly, you cannot use event.target.value here.
 
-      return { playerNamesInternal: newObj };
+      return { playerNamesInput: newObj };
     });
   };
 
@@ -105,33 +116,50 @@ class PlayerNames extends React.Component {
     return Object.keys(this.state.playerNamesDisplay).map(player => {
       return (
         <div id={`${player}`} className={`${player}Details`}>
-          <Finger
-            player={player}
-            isItPlayerOneTurn={this.props.isItPlayerOneTurn}
-            handleTransitionToggle={this.props.handleTransitionToggle}
-            transitionToggle={this.props.transitionToggle}
-          />
+          {this.props.hasTournamentBegun ? (
+            <Finger
+              player={player}
+              isItPlayerOneTurn={this.props.isItPlayerOneTurn}
+              handleTransitionToggle={this.props.handleTransitionToggle}
+              transitionToggle={this.props.transitionToggle}
+            />
+          ) : (
+            <></>
+          )}
+
           <h2 className="playerNameText">
             {this.state.playerNamesDisplay[player]}
           </h2>
-          <form
-            className={this.props.hasTournamentBegun ? "invisible" : ""}
-            onSubmit={this.handlePlayerSubmit.bind(this, player)}
-          >
-            <input
-              onChange={this.handlePlayerNameChange.bind(this, player)}
-              id={`${player}name`}
-              name={`${player}name`}
-              type="text"
-              placeholder="Prosze napisz twoje imie"
-            />
-            <br />
-            <br />
-            <button>Submit name</button>
-            <button onClick={this.selectRandomName.bind(this, player)}>
-              Random!
-            </button>
-          </form>
+
+          {this.props.hasTournamentBegun ? (
+            <Wins playerScores={this.state.playerScores} player={player} />
+          ) : (
+            <form
+              className="nameForm"
+              onSubmit={this.handlePlayerSubmit.bind(this, player)}
+            >
+              <input
+                value={this.state.playerNamesInput[player]}
+                className="inputName"
+                onChange={this.handlePlayerNameChange.bind(this, player)}
+                id={`${player}name`}
+                name={`${player}name`}
+                type="text"
+                placeholder="Prosze napisz twoje imie"
+              />
+              <br />
+              <button className="sideButtons" id={`submit${player}NameButton`}>
+                Submit
+              </button>
+              <button
+                className="sideButtons"
+                id={`random${player}NameButton`}
+                onClick={this.selectRandomName.bind(this, player)}
+              >
+                Random!
+              </button>
+            </form>
+          )}
         </div>
       );
     });
@@ -187,6 +215,7 @@ function ExtraButtons(props) {
       className={props.hasTournamentBegun ? "invisible" : ""}
     >
       <button
+        id="startTourneyButton"
         className="startTourneyButton"
         onClick={() => {
           props.tournBegunHandler();
@@ -242,7 +271,36 @@ class Board extends React.Component {
   };
 
   handleClick = (event, row, column) => {
-    if (this.state.board[row][column] === "") {
+    if (!this.props.hasTournamentBegun) {
+      const c = document.getElementById("startTourneyButton");
+      const b = document.getElementById("randomp1NameButton");
+      const a = document.getElementById("submitp1NameButton");
+      const e = document.getElementById("randomp2NameButton");
+      const d = document.getElementById("submitp2NameButton");
+
+      setTimeout(() => {
+        a.setAttribute("style", "background-color: yellow;");
+        setTimeout(() => {
+          a.removeAttribute("style", "background-color: yellow;");
+          b.setAttribute("style", "background-color: yellow;");
+          setTimeout(() => {
+            b.removeAttribute("style", "background-color: yellow;");
+            c.setAttribute("style", "background-color: yellow;");
+            setTimeout(() => {
+              c.removeAttribute("style", "background-color: yellow;");
+              d.setAttribute("style", "background-color: yellow;");
+              setTimeout(() => {
+                d.removeAttribute("style", "background-color: yellow;");
+                e.setAttribute("style", "background-color: yellow;");
+                setTimeout(() => {
+                  e.removeAttribute("style", "background-color: yellow;");
+                }, 100);
+              }, 100);
+            }, 100);
+          }, 100);
+        }, 100);
+      }, 100);
+    } else if (this.state.board[row][column] === "") {
       this.setState(currentState => {
         const newBoard = [];
         currentState.board.forEach(arr => newBoard.push([...arr]));
@@ -331,6 +389,7 @@ class App extends React.Component {
             isItPlayerOneTurn={this.state.isItPlayerOneTurn}
             turnHandler={this.turnHandler}
             handleTransitionToggle={this.handleTransitionToggle}
+            hasTournamentBegun={this.state.hasTournamentBegun}
           />
           <PlayerNames
             isItPlayerOneTurn={this.state.isItPlayerOneTurn}
@@ -368,6 +427,10 @@ class App extends React.Component {
       </div>
     );
   }
+}
+
+function Wins(props) {
+  return <p className="wins">🏆 {props.playerScores[props.player]}</p>;
 }
 
 export default App;

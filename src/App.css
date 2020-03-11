@@ -3,16 +3,71 @@
   background-color: cyan;
 }
 
-.backing {
-  background-color: lightgoldenrodyellow;
-}
-
 .over-grid {
+  background-color: cornflowerblue;
   display: grid;
   grid-template-columns: 30% 40% 30%;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   min-height: 0;
   min-width: 0;
+  max-height: 100%;
+}
+
+.p1Details {
+  background-color: teal;
+  color: black;
+  display: grid;
+  grid-column: 1;
+  grid-row: 1 / 4;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  max-height: 100%;
+  max-width: 100%;
+  /* width: 100%; */
+  /* height: 50%;
+  width: 100%; */
+  /* max-width: 50%;
+  max-height: 50%;
+  resize: none;
+  width: min-content; */
+}
+
+.p2Details {
+  background-color: yellow;
+  color: black;
+  display: grid;
+  grid-column: 3;
+  grid-row: 1 / 4;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.playerNameText {
+  top: -10%;
+  position: relative;
+  background-color: lightblue;
+  overflow: hidden;
+  display: block;
+  line-height: 1.15em;
+  max-height: 4.5em;
+  font-size: 5vw;
+  max-width: 30vw;
+  min-height: 0;
+  min-width: 0;
+
+  /* position: relative; */
+  /* position: center; */
+  /* text-align: center; */
+  /*max-width: 50%;
+  max-height: 50%;
+  text-align: center;
+  overflow: visible;
+  min-width: 0;
+  position: absolute; */
+  /* resize: none; */
 }
 
 .middleBottom {
@@ -23,7 +78,7 @@
 
 .startTourneyButton {
   font-size: 3vw;
-  margin-top: 1%;
+  margin-top: 2%;
   height: 70%;
   width: 50%;
 }
@@ -84,6 +139,28 @@ h5 {
   visibility: hidden;
 }
 
+.nameForm {
+  background-color: magenta;
+  position: relative;
+  bottom: 85%;
+  height: 7vw;
+  max-height: 100%;
+}
+
+.sideButtons {
+  font-size: 2vw;
+  /* margin-top: 1%; */
+  height: 60%;
+  width: 40%;
+}
+
+.inputName {
+  font-size: 2vw;
+  margin-top: 1%;
+  height: 60%;
+  width: 80%;
+}
+
 .theFinger {
   /* float: right; */
   text-align: right;
@@ -92,55 +169,7 @@ h5 {
   max-height: 4em;
   font-size: 6vw;
   padding-left: 12.5%;
-  margin-top: -0.5%;
-}
-
-.playerNameText {
-  display: inline-flex;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  display: block;
-  line-height: 1.2em;
-  max-height: 6em;
-  font-size: 5vw;
-  /* position: center; */
-  /* text-align: center; */
-  margin-top: -10%;
-
-  /*max-width: 50%;
-  max-height: 50%;
-  text-align: center;
-  overflow: visible;
-  min-width: 0;
-  position: absolute; */
-  /* resize: none; */
-}
-
-.p1Details {
-  background-color: teal;
-  color: black;
-  display: grid;
-  grid-column: 1;
-  grid-row: 1 / 4;
-  min-height: 0;
-  min-width: 0;
-  /* height: 50%;
-  width: 100%; */
-  /* max-width: 50%;
-  max-height: 50%;
-  resize: none;
-  width: min-content; */
-}
-
-.p2Details {
-  background-color: yellow;
-  color: black;
-  display: grid;
-  grid-column: 3;
-  grid-row: 1 / 4;
-  min-height: 0;
-  min-width: 0;
+  margin-top: -5%;
 }
 
 .wrapper {
@@ -169,4 +198,14 @@ h5 {
   /* max-height: 0.5em; */
   margin-top: -13%;
   margin-bottom: -140%;
+}
+
+.wins {
+  font-size: 10vw;
+  background-color: blueviolet;
+  /* top: -150%; */
+  top: 150%;
+  position: relative;
+  margin-top: -100%;
+  /* margin-bottom: -50%; */
 }
