@@ -15,13 +15,6 @@ const randomNames = [
   "Oil Tycoon",
   "Green Ghoul",
   "A tempting plate of Scooby Snacks",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing",
   "An excessively tall sandwich",
   "Velma's lost glasses"
 ];
@@ -228,16 +221,9 @@ function ExtraButtons(props) {
 }
 
 class Board extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   // create a ref to store the textInput DOM element
-  //   this.clickedSquare = React.createRef();
-  //   this.makeBorderFlash = this.makeBorderFlash.bind(this);
-  // }
-
   state = {
     board: [
-      ["", "", "O"],
+      ["", "", ""],
       ["", "", ""],
       ["", "", ""]
     ],
@@ -245,7 +231,7 @@ class Board extends React.Component {
   };
 
   makeBorderFlash = (row, column) => {
-    const currentSquare = document.getElementById(`box ${row}-${column}`);
+    const currentSquare = document.getElementById(`${row}, ${column}`);
 
     setTimeout(() => {
       currentSquare.setAttribute("style", "background-color: yellow;");
@@ -270,51 +256,98 @@ class Board extends React.Component {
     }, 50);
   };
 
-  handleClick = (event, row, column) => {
-    if (!this.props.hasTournamentBegun) {
-      const c = document.getElementById("startTourneyButton");
-      const b = document.getElementById("randomp1NameButton");
-      const a = document.getElementById("submitp1NameButton");
-      const e = document.getElementById("randomp2NameButton");
-      const d = document.getElementById("submitp2NameButton");
+  makeButtonsFlash = () => {
+    const c = document.getElementById("startTourneyButton");
+    const b = document.getElementById("randomp1NameButton");
+    const a = document.getElementById("submitp1NameButton");
+    const e = document.getElementById("randomp2NameButton");
+    const d = document.getElementById("submitp2NameButton");
 
+    setTimeout(() => {
+      a.setAttribute("style", "background-color: yellow;");
       setTimeout(() => {
-        a.setAttribute("style", "background-color: yellow;");
+        a.removeAttribute("style", "background-color: yellow;");
+        b.setAttribute("style", "background-color: yellow;");
         setTimeout(() => {
-          a.removeAttribute("style", "background-color: yellow;");
-          b.setAttribute("style", "background-color: yellow;");
+          b.removeAttribute("style", "background-color: yellow;");
+          c.setAttribute("style", "background-color: yellow;");
           setTimeout(() => {
-            b.removeAttribute("style", "background-color: yellow;");
-            c.setAttribute("style", "background-color: yellow;");
+            c.removeAttribute("style", "background-color: yellow;");
+            d.setAttribute("style", "background-color: yellow;");
             setTimeout(() => {
-              c.removeAttribute("style", "background-color: yellow;");
-              d.setAttribute("style", "background-color: yellow;");
+              d.removeAttribute("style", "background-color: yellow;");
+              e.setAttribute("style", "background-color: yellow;");
               setTimeout(() => {
-                d.removeAttribute("style", "background-color: yellow;");
-                e.setAttribute("style", "background-color: yellow;");
-                setTimeout(() => {
-                  e.removeAttribute("style", "background-color: yellow;");
-                }, 100);
+                e.removeAttribute("style", "background-color: yellow;");
               }, 100);
             }, 100);
           }, 100);
         }, 100);
       }, 100);
-    } else if (this.state.board[row][column] === "") {
-      this.setState(currentState => {
-        const newBoard = [];
-        currentState.board.forEach(arr => newBoard.push([...arr]));
-        console.log(newBoard);
-        newBoard[row][column] = this.props.isItPlayerOneTurn ? "X" : "O";
-        this.props.turnHandler();
-        this.props.handleTransitionToggle(true);
-        return {
-          board: newBoard
-        };
-      });
+    }, 100);
+  };
+
+  handleClick = (event, row, column) => {
+    if (!this.props.hasTournamentBegun) {
+      this.makeButtonsFlash();
     } else {
-      this.makeBorderFlash(row, column);
+      if (this.state.board[row][column] === "") {
+        this.setState(currentState => {
+          const newBoard = [];
+          currentState.board.forEach(arr => newBoard.push([...arr]));
+          console.log(newBoard);
+          newBoard[row][column] = this.props.isItPlayerOneTurn ? "X" : "O";
+          this.props.turnHandler();
+          this.props.handleTransitionToggle(true);
+          return {
+            board: newBoard
+          };
+        });
+        console.log(this.checkForWinningTriplet());
+      } else {
+        this.makeBorderFlash(row, column);
+      }
     }
+  };
+
+  checkForWinningTriplet = () => {
+    const { board } = this.state;
+
+    console.log(board[0][0], board[1][1], board[2][2]);
+
+    if (board[1][1]) {
+      if (
+        (board[0][0] === board[1][1] && board[1][1] === board[2][2]) ||
+        (board[0][2] === board[1][1] && board[1][1] === board[2][0])
+      ) {
+        return `Wow! ${board[1][1]} wins with a sick diagonal! It was either ${board[0][0]}${board[1][1]}${board[2][2]} from right to left, or it was ${board[2][0]}${board[1][1]}${board[2][0]} from left to right`;
+      }
+    } else {
+      for (let iterant = 0; iterant < board.length; iterant++) {
+        let col = iterant;
+
+        if (board[col][0]) {
+          if (
+            board[col][0] === board[col][1] &&
+            board[col][1] === board[col][2]
+          ) {
+            return `Wow! ${board[col][0]} wins with a boss vertical! It was ${board[col][0]}${board[col][1]}${board[col][2]}`;
+          } else {
+            let row = iterant;
+            if (board[0][row]) {
+              if (
+                board[0][row] === board[1][row] &&
+                board[1][row] === board[2][row]
+              ) {
+                return `Wow! ${board[0][row]} wins with a dank horizontal! It was ${board[0][row]}${board[1][row]}${board[2][row]}`;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return "Keep playing, comrades!";
   };
 
   render() {
@@ -324,7 +357,7 @@ class Board extends React.Component {
           row.map((column, indexColumn) => {
             return (
               <div
-                id={`box ${indexRow}-${indexColumn}`}
+                id={`${indexRow}, ${indexColumn}`}
                 onClick={() => {
                   this.handleClick(this, indexRow, indexColumn);
                 }}

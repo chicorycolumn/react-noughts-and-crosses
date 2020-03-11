@@ -47,8 +47,9 @@
 
 .playerNameText {
   top: -10%;
+  height: 4.5em;
   position: relative;
-  background-color: lightblue;
+  /* background-color: lightblue; */
   overflow: hidden;
   display: block;
   line-height: 1.15em;
@@ -140,9 +141,9 @@ h5 {
 }
 
 .nameForm {
-  background-color: magenta;
+  /* background-color: magenta; */
   position: relative;
-  bottom: 85%;
+  bottom: 105%;
   height: 7vw;
   max-height: 100%;
 }
@@ -202,10 +203,8 @@ h5 {
 
 .wins {
   font-size: 10vw;
-  background-color: blueviolet;
-  /* top: -150%; */
+  /* background-color: blueviolet; */
   top: 150%;
   position: relative;
-  margin-top: -100%;
-  /* margin-bottom: -50%; */
+  margin-top: -16vw;
 }
